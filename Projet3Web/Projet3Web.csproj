@@ -71,7 +71,17 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\AgenceVoyage.cs" />
+    <Compile Include="Models\Assurance.cs" />
+    <Compile Include="Models\Client.cs" />
+    <Compile Include="Models\Destination.cs" />
+    <Compile Include="Models\DossierReservation.cs" />
+    <Compile Include="Models\EtatDossierReservation.cs" />
+    <Compile Include="Models\Participant.cs" />
     <Compile Include="Models\Personne.cs" />
+    <Compile Include="Models\RaisonAnnulationDossier.cs" />
+    <Compile Include="Models\TypeAssurance.cs" />
+    <Compile Include="Models\Voyage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
