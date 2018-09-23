@@ -5,7 +5,8 @@ using System.Web;
 
 namespace Projet3Web.Models
 {
-    public class Client
+    public class Client:Personne
     {
+        public string Email { get; set; }
     }
 }

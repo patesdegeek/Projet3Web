@@ -7,5 +7,6 @@ namespace Projet3Web.Models
 {
     public class Assurance
     {
+        public 
     }
 }

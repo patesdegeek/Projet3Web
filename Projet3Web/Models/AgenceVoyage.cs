@@ -7,5 +7,6 @@ namespace Projet3Web.Models
 {
     public class AgenceVoyage
     {
+        public string Nom { get; set; }
     }
 }
