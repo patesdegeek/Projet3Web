@@ -6,7 +6,7 @@ using System.Web;
 
 namespace Projet3Web.Models
 {
-    public class Personne
+    public abstract class Personne
     {
         public int Id { get; set; }
         public string Civilite { get; set; }

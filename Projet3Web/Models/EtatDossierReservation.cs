@@ -5,7 +5,11 @@ using System.Web;
 
 namespace Projet3Web.Models
 {
-    public class EtatDossierReservation
+    public enum EtatDossierReservation
     {
+        EnAttente = 0,
+        EnCours   = 1,
+        Refusee   = 2,
+        Acceptee  = 3
     }
 }

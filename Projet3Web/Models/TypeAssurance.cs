@@ -5,7 +5,8 @@ using System.Web;
 
 namespace Projet3Web.Models
 {
-    public class TypeAssurance
+    public enum TypeAssurance
     {
+        Annulation = 1
     }
 }
