@@ -36,15 +36,7 @@ function Afficher() {
                     boutonModifier.on('click', function () {
                         // Ouverture de la popup
                         var rowData = $(this).closest('tr.row-data').data('client')
-                        modalEdit.modal('show');
-                        inputId.val(rowData.Id);
-                        inputCivilite.val(rowData.Civilite);
-                        inputNom.val(rowData.Nom);
-                        inputPrenom.val(rowData.Prenom);
-                        inputAdresse.val(rowData.Adresse);
-                        inputEmail.val(rowData.Email);
-                        inputTelephone.val(rowData.Telephone);
-                        inputDateNaissance.val(new Date(rowData.DateNaissance).toLocaleDateString());
+                        InitialiserModification(rowData);
                     });
 
                     ligneBoutons.append(boutonModifier);
@@ -61,34 +53,66 @@ function Afficher() {
     })
 }
 
-function Nouveau() {
-    inputId.val(null);
-    inputCivilite.val(null);
-    inputNom.val(null);
-    inputPrenom.val(null);
-    inputAdresse.val(null);
-    inputEmail.val(null);
-    inputTelephone.val(null);
-    inputDateNaissance.val(null);
+function InitialiserAjout() {
+    inputId.val('');
+    inputCivilite.val('');
+    inputNom.val('');
+    inputPrenom.val('');
+    inputAdresse.val('');
+    inputEmail.val('');
+    inputTelephone.val('');
+    inputDateNaissance.val('');
+    modalEdit.modal('show');
+}
+
+function InitialiserModification(rowData) {
+    inputId.val(rowData.Id);
+    inputCivilite.val(rowData.Civilite);
+    inputNom.val(rowData.Nom);
+    inputPrenom.val(rowData.Prenom);
+    inputAdresse.val(rowData.Adresse);
+    inputEmail.val(rowData.Email);
+    inputTelephone.val(rowData.Telephone);
+    inputDateNaissance.val(new Date(rowData.DateNaissance).toLocaleDateString());
     modalEdit.modal('show');
 }
 
 function Valider() {
-    var creation = inputId.val() == null;
+    console.log(inputId.val());
+    var creation = inputId.val() == '';
 
     if (creation) {
         Ajouter();
     } else {
-        EnregistrerModifications();
+        Modifier();
     }
 
 }
 
 function Ajouter() {
-
+    // On divise la date de naissance en jour/mois/année en séparant par le caractère '/'
+    var dateNaissance = inputDateNaissance.val().split('/');
+    $.ajax({
+        type: 'POST',
+        url: '/api/clients',
+        data: {
+            civilite: inputCivilite.val(),
+            nom: inputNom.val(),
+            prenom: inputPrenom.val(),
+            adresse: inputAdresse.val(),
+            email: inputEmail.val(),
+            telephone: inputTelephone.val(),
+            dateNaissance: new Date(dateNaissance[2], dateNaissance[1] - 1, dateNaissance[0]).toUTCString()
+        },
+        success: function () {
+            alert('Ajout effectué');
+            modalEdit.modal('hide');
+            Afficher();
+        }
+    })
 }
 
-function EnregistrerModifications() {
+function Modifier() {
     // On divise la date de naissance en jour/mois/année en séparant par le caractère '/'
     var dateNaissance = inputDateNaissance.val().split('/');
     $.ajax({
