@@ -12,7 +12,7 @@ var inputEmail = $('input[name="email"]');
 var inputTelephone = $('input[name="telephone"]');
 var inputDateNaissance = $('input[name="dateNaissance"]');
 
-function AfficherClients() {
+function Afficher() {
     $.ajax({
         url: "/api/clients",
         success: function (clients) {
@@ -61,6 +61,18 @@ function AfficherClients() {
     })
 }
 
+function Nouveau() {
+    inputId.val(null);
+    inputCivilite.val(null);
+    inputNom.val(null);
+    inputPrenom.val(null);
+    inputAdresse.val(null);
+    inputEmail.val(null);
+    inputTelephone.val(null);
+    inputDateNaissance.val(null);
+    modalEdit.modal('show');
+}
+
 function Valider() {
     var creation = inputId.val() == null;
 
@@ -95,9 +107,9 @@ function EnregistrerModifications() {
         success: function () {
             alert('Modifications effectuées');
             modalEdit.modal('hide');
-            AfficherClients();
+            Afficher();
         }
     })
 }
 
-$(document).ready(AfficherClients);
+$(document).ready(Afficher);
