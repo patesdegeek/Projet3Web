@@ -1,7 +1,9 @@
 ﻿// Déclaration des variables
 var tableBody = $("#table-body");
 var modalEdit = $('#modalEdit');
-var form = $('#formEdit');
+var selectOrder = $('#selectOrder');
+var boutonRecherche = $('#boutonRecherche');
+var inputSearch = $("#inputSearch");
 
 var inputId = $('input[name="id"]');
 var inputCivilite = $('input[name="civilite"]');
@@ -12,9 +14,23 @@ var inputEmail = $('input[name="email"]');
 var inputTelephone = $('input[name="telephone"]');
 var inputDateNaissance = $('input[name="dateNaissance"]');
 
-function Afficher() {
+function Init() {
+    selectOrder.change(function (event) {
+        Lister();
+    });
+    boutonRecherche.click(function () {
+        Lister();
+    });
+    Lister();
+}
+
+function Lister() {
     $.ajax({
         url: "/api/clients",
+        data: {
+            orderby: selectOrder.val(),
+            search: inputSearch.val()
+        },
         success: function (clients) {
             tableBody.empty();
 
@@ -32,14 +48,21 @@ function Afficher() {
                     ligneClient.data('client', client);
 
                     // Création des boutons
-                    var boutonModifier = $('<button class="btn btn-sm btn-primary"><i class="fas fa-pen"></i></button>');
+                    var boutonModifier = $('<button class="btn btn-sm btn-primary mx-1"><i class="fas fa-pen"></i></button>');
+                    var boutonSupprimer = $('<button class="btn btn-sm btn-danger mx-1"><i class="fas fa-trash"></i></button>');
                     boutonModifier.on('click', function () {
                         // Ouverture de la popup
-                        var rowData = $(this).closest('tr.row-data').data('client')
+                        var rowData = $(this).closest('tr.row-data').data('client');
                         InitialiserModification(rowData);
                     });
 
+                    boutonSupprimer.on('click', function () {
+                        var rowData = $(this).closest('tr.row-data').data('client');
+                        Supprimer(rowData.Id);
+                    });
+
                     ligneBoutons.append(boutonModifier);
+                    ligneBoutons.append(boutonSupprimer);
 
                     ligneClient.append(ligneBoutons);
                     ligneClient.append(ligneClient1);
@@ -78,7 +101,6 @@ function InitialiserModification(rowData) {
 }
 
 function Valider() {
-    console.log(inputId.val());
     var creation = inputId.val() == '';
 
     if (creation) {
@@ -107,8 +129,9 @@ function Ajouter() {
         success: function () {
             alert('Ajout effectué');
             modalEdit.modal('hide');
-            Afficher();
-        }
+            Lister();
+        },
+        error: Erreur
     })
 }
 
@@ -131,9 +154,26 @@ function Modifier() {
         success: function () {
             alert('Modifications effectuées');
             modalEdit.modal('hide');
-            Afficher();
-        }
+            Lister();
+        },
+        error: Erreur
     })
 }
 
-$(document).ready(Afficher);
+function Supprimer(id) {
+    $.ajax({
+        type: 'DELETE',
+        url: '/api/clients/' + id,
+        success: function () {
+            alert('Suppression effectuée');
+            Lister();
+        },
+        error: Erreur
+    });
+}
+
+function Erreur() {
+    alert("Une erreur est survenue !");
+}
+
+$(document).ready(Init);

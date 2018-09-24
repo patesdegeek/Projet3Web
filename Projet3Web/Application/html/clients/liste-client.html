@@ -48,6 +48,19 @@
         <div class="my-3">
             <button onclick="InitialiserAjout()" class="btn btn-success"><i class="fas fa-plus"></i> Ajouter un nouveau client</button>
         </div>
+        <div class="my-3">
+            <div class="form-group form-inline">
+                <label for="selectOrder" class="mr-2">Trier par : </label>
+                <select id="selectOrder" class="form-control custom-select custom-select-sm mr-2">
+                    <option selected></option>
+                    <option value="Nom">Nom</option>
+                    <option value="Prenom">Prenom</option>
+                </select>
+                <label for="inputSearch" class="mr-2">Recherche : </label>
+                <input id="inputSearch" class="form-control form-control-sm mr-2" name="search">
+                <button id="boutonRecherche" class="btn btn-primary btn-sm">Rechercher</button>
+            </div>
+        </div>
         <div class="table-responsive">
             <table class="table table-striped table-hover" id="table">
                 <thead>

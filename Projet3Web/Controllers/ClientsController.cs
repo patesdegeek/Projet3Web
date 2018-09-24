@@ -18,9 +18,27 @@ namespace Projet3Web.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: api/Clients
-        public IQueryable<Client> GetClients()
+        public IQueryable<Client> GetClients(string orderby = null, string search = null)
         {
-            return db.Clients;
+            IQueryable<Client> query = db.Clients;
+            if (orderby != null)
+            {
+                switch (orderby)
+                {
+                    case "Nom":
+                        query = query.OrderBy(x => x.Nom);
+                        break;
+                    case "Prenom":
+                        query = query.OrderBy(x => x.Prenom);
+                        break;
+                    default: break; ;
+                }
+            }
+            if (search != null)
+            {
+                query = query.Where(x => x.Nom.Contains(search) || x.Prenom.Contains(search));
+            }
+            return query;
         }
 
         // GET: api/Clients/5
