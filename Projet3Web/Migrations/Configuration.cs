@@ -1,5 +1,6 @@
 namespace Projet3Web.Migrations
 {
+    using Projet3Web.Models;
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
@@ -14,10 +15,10 @@ namespace Projet3Web.Migrations
 
         protected override void Seed(Projet3Web.Data.ApplicationDbContext context)
         {
-            //  This method will be called after migrating to the latest version.
-
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
-            //  to avoid creating duplicate seed data.
+            context.Clients.AddOrUpdate(x => x.Id,
+                new Client() { Civilite = "Mr", Nom = "Parrot", Prenom = "Laurent", Adresse = "11, Caserne des Gardes 78120 Rambouillet", Email = "kestounet@gmail.com", Telephone = "0648091132", DateNaissance = DateTime.Parse("05/09/1983") },
+                new Client() { Civilite = "Mme", Nom = "Parrot", Prenom = "Anne", Adresse = "11, Caserne des Gardes 78120 Rambouillet", Email = "patesdegeek@gmail.com", Telephone = "0123456789", DateNaissance = DateTime.Parse("13/07/1982") }
+            );
         }
     }
 }
